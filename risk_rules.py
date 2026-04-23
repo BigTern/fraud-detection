@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+_HIGH_RISK_MERCHANTS = {"gift_cards", "crypto"}
+_MEDIUM_RISK_MERCHANTS = {"gaming"}
+
 
 def score_transaction(tx: dict) -> int:
     """Return a fraud risk score from 0 to 100."""
@@ -10,7 +13,7 @@ def score_transaction(tx: dict) -> int:
     elif tx["device_risk_score"] >= 40:
         score += 10
 
-    if tx["is_international"] == 1:
+    if tx["is_international"]:
         score += 15
 
     if tx["amount_usd"] >= 1000:
@@ -32,6 +35,12 @@ def score_transaction(tx: dict) -> int:
         score += 20
     elif tx["prior_chargebacks"] == 1:
         score += 5
+
+    category = tx["merchant_category"]
+    if category in _HIGH_RISK_MERCHANTS:
+        score += 20
+    elif category in _MEDIUM_RISK_MERCHANTS:
+        score += 10
 
     return max(0, min(score, 100))
 
