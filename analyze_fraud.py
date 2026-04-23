@@ -8,7 +8,7 @@ from features import build_model_frame
 from risk_rules import label_risk, score_transaction
 
 
-DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+DATA_DIR = Path(__file__).resolve().parent
 
 
 def load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -27,16 +27,17 @@ def score_transactions(transactions: pd.DataFrame, accounts: pd.DataFrame) -> pd
     return model_frame
 
 
+_RISK_LEVELS = ["low", "medium", "high"]
+
+
 def summarize_results(scored: pd.DataFrame, chargebacks: pd.DataFrame) -> pd.DataFrame:
-    summary = (
-        scored.groupby("risk_label", as_index=False)
-        .agg(
-            transactions=("transaction_id", "count"),
-            total_amount_usd=("amount_usd", "sum"),
-            avg_amount_usd=("amount_usd", "mean"),
-        )
-        .sort_values("risk_label")
+    summary = scored.groupby("risk_label", as_index=False).agg(
+        transactions=("transaction_id", "count"),
+        total_amount_usd=("amount_usd", "sum"),
+        avg_amount_usd=("amount_usd", "mean"),
     )
+    summary["risk_label"] = pd.Categorical(summary["risk_label"], categories=_RISK_LEVELS, ordered=True)
+    summary = summary.sort_values("risk_label")
 
     known_fraud = scored.merge(chargebacks[["transaction_id"]], on="transaction_id", how="left", indicator=True)
     known_fraud["is_chargeback"] = (known_fraud["_merge"] == "both").astype(int)

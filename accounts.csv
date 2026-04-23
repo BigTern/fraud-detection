@@ -1,11 +1,13 @@
-# NimbusPay Fraud Detection Assignment
-
-NimbusPay is a digital payments company. Fraud losses increased during the last quarter, and the fraud operations team believes some of the Python code used to score and summarize risk is flawed.
-
-## Quick start
-
-```bash
-pip install -r requirements.txt
-python src/analyze_fraud.py
-pytest
-```
+account_id,customer_name,account_age_days,prior_chargebacks
+1001,Alice Marsh,820,0
+1002,Brian Cole,1104,0
+1003,Carla Reyes,245,1
+1004,David Park,677,0
+1005,Emma Svensson,1532,0
+1006,Femi Adeyemi,88,2
+1007,Grace Liu,430,0
+1008,Haruto Tanaka,312,1
+1009,Ingrid Bauer,950,0
+1010,James Okafor,763,0
+1011,Katya Morozova,61,3
+1012,Lena Fischer,1210,0
