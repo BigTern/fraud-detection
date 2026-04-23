@@ -1,2 +1,9 @@
-pandas==2.2.3
-pytest==8.3.5
+transaction_id,chargeback_date,reason
+50003,2026-03-10,unauthorized_transaction
+50006,2026-03-12,unauthorized_transaction
+50008,2026-03-15,unauthorized_transaction
+50011,2026-03-18,unauthorized_transaction
+50013,2026-03-20,unauthorized_transaction
+50014,2026-03-20,unauthorized_transaction
+50015,2026-03-22,unauthorized_transaction
+50019,2026-03-25,unauthorized_transaction
